@@ -57,6 +57,7 @@ HealthcareHub is a platform where healthcare professionals can consult with each
 ## Usage
 
 Once the application is running, you can access the GraphQL Playground at `http://localhost:3000/graphql` to interact with the API.
+![GraphQL Playground](image.png)
 
 ## Features
 

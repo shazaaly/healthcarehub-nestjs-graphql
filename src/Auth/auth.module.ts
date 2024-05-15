@@ -12,7 +12,7 @@ import { AuthService } from "./service/auth.service";
         TypeOrmModule.forFeature([User]),
         PassportModule,
         JwtModule.register({
-            secret: 'secretKey',
+            secret: process.env.SECRET_KEY,
             signOptions  :{expiresIn: '120m'}
         })
     ],
