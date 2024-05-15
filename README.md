@@ -1,74 +1,128 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
-
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+# HealthcareHub
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+HealthcareHub is a platform where healthcare professionals can consult with each other, share knowledge, and discuss cases. The platform includes features such as user authentication, case discussions, real-time chat, and user profiles, built using Nest.js, GraphQL, and PostgreSQL.
+
+## Table of Contents
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [Features](#features)
+- [Seeding the Database](#seeding-the-database)
+- [License](#license)
 
 ## Installation
 
-```bash
-$ npm install
-```
+### Prerequisites
 
-## Running the app
+- [Node.js](https://nodejs.org/en/) (version 14.x or later)
+- [npm](https://www.npmjs.com/get-npm) (version 6.x or later)
+- [PostgreSQL](https://www.postgresql.org/download/)
 
-```bash
-# development
-$ npm run start
+### Steps
 
-# watch mode
-$ npm run start:dev
+1. **Clone the repository:**
 
-# production mode
-$ npm run start:prod
-```
+   ```bash
+   git clone https://github.com/yourusername/healthcarehub.git
+   cd healthcarehub
+   ```
 
-## Test
+2. **Install dependencies:**
 
-```bash
-# unit tests
-$ npm run test
+   ```bash
+   npm install
+   ```
 
-# e2e tests
-$ npm run test:e2e
+3. **Set up environment variables:**
 
-# test coverage
-$ npm run test:cov
-```
+   Create a `.env` file in the root directory and add your PostgreSQL configuration:
 
-## Support
+   ```env
+   DATABASE_HOST=localhost
+   DATABASE_PORT=5432
+   DATABASE_USERNAME=yourusername
+   DATABASE_PASSWORD=yourpassword
+   DATABASE_NAME=healthcarehub
+   JWT_SECRET=yourjwtsecret
+   ```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+4. **Run the application:**
 
-## Stay in touch
+   ```bash
+   npm run start:dev
+   ```
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## Usage
 
-## License
+Once the application is running, you can access the GraphQL Playground at `http://localhost:3000/graphql` to interact with the API.
 
-Nest is [MIT licensed](LICENSE).
-# healthcarehub-nestjs-graphql
+## Features
+
+- **User Authentication:** Secure user login and registration using JWT.
+- **Case Discussions:** Healthcare professionals can create, view, and discuss cases.
+- **Real-Time Chat:** Real-time communication using GraphQL subscriptions.
+- **User Profiles:** Manage and view user profiles.
+
+## Seeding the Database
+
+To seed the database with fake data:
+
+1. **Install the `faker` library:**
+
+   ```bash
+   npm install @faker-js/faker
+   ```
+
+2. **Create the seeder script (`seeder.ts`):**
+
+   ```typescript
+   import { NestFactory } from '@nestjs/core';
+   import { AppModule } from './app.module';
+   import { UserService } from './user/user.service';
+   import { CaseService } from './case/case.service';
+   import { CreateUserDto } from './user/create-user.dto';
+   import { CreateCaseDto } from './case/create-case.dto';
+   import { faker } from '@faker-js/faker';
+
+   async function bootstrap() {
+     const app = await NestFactory.createApplicationContext(AppModule);
+     const userService = app.get(UserService);
+     const caseService = app.get(CaseService);
+
+     // Seed users
+     for (let i = 0; i < 10; i++) {
+       const userDto: CreateUserDto = {
+         name: faker.name.findName(),
+         email: faker.internet.email(),
+       };
+       await userService.create(userDto);
+     }
+
+     const users = await userService.findAll();
+
+     // Seed cases
+     for (let i = 0; i < 20; i++) {
+       const caseDto: CreateCaseDto = {
+         title: faker.lorem.sentence(),
+         description: faker.lorem.paragraph(),
+         userId: users[Math.floor(Math.random() * users.length)].id,
+       };
+       await caseService.create(caseDto);
+     }
+
+     await app.close();
+   }
+
+   bootstrap();
+   ```
+
+3. **Run the seeder script:**
+
+   ```bash
+   ts-node seeder.ts
+   ```
+
+This script will populate the database with 10 users and 20 cases using the `faker` library for generating random data.
+
