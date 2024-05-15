@@ -11,6 +11,8 @@ import { join } from 'path';
 import { UserService } from './user/service/user.service';
 import { UserController } from './user/user.controller';
 import * as dotenv from 'dotenv'; 
+import { User } from './user/entity/user.entity';
+import { UserResolver } from './user/resolver/user.resolver';
 dotenv.config();
 
 
@@ -26,9 +28,11 @@ dotenv.config();
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: 'healthcarehub',
-      entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: false,
     }),
+    TypeOrmModule.forFeature([User]), // add this line
+
     
     
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -37,6 +41,6 @@ dotenv.config();
     }),
   ],
   controllers: [UserController],
-  providers: [UserService],
+  providers: [UserService, UserResolver],
 })
 export class AppModule {}
